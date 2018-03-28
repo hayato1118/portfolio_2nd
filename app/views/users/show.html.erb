@@ -1,0 +1,168 @@
+<div class="row">
+	<div class="col-md-8 col-md-offset-2">
+		<h3>ユーザー情報</h3>
+	</div>
+	<div class="col-md-6 col-md-offset-2">
+		<!-- タブ・メニュー -->
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="#sampleContentA" data-toggle="tab"><i class="glyphicon glyphicon-pencil"></i>My Created Topics</a></li>
+
+			<% if @user.id == current_user.id %>
+			<li><a href="#sampleContentB" data-toggle="tab"><i class="glyphicon glyphicon-paperclip"></i>Favorite</a></li>
+			<% end %>
+
+
+
+			<% if @user.id == current_user.id %>
+			<li><a href="#sampleContentC" data-toggle="tab"><i class="glyphicon glyphicon-user"></i>User edit</a></li>
+			<% end %>
+			<li><a href="#sampleContentD" data-toggle="tab"><i class="glyphicon glyphicon-thumbs-up"></i>Friends</a></li>
+		</ul>
+
+		<!-- タブ内容 -->
+		<div class="tab-content">
+			<div class="tab-pane active" id="sampleContentA">
+						<% @user.topics.each do |topic| %>
+							<div class="col-md-10 clip_body">
+								<%= link_to topic_path(topic.id) do %>
+									<%= topic.title %>
+								<% end %>
+							</div>
+
+							<div class="col-md-2">
+							</div>
+
+							<div class="col-md-10 clip_body">
+							<%= topic.url %>
+							</div>
+
+							<div class="col-md-2">
+							<%= link_to "削除",  topic_path(topic), method: :delete %>
+							</div>
+						<hr>
+						<hr>
+						<hr>
+					 <% end %>
+			</div>
+
+
+		<% if @user.id == current_user.id %>
+			<div class="tab-pane" id="sampleContentB">
+				 <% @user.clip_topics.each_with_index do |topic, i| %>
+					<div class="col-md-10 clip_body">
+						<%= link_to topic_path(topic.id) do %>
+							<%= topic.title %>
+						<%end %>
+					</div>
+
+					<div class="col-md-2">
+					</div>
+
+					<div class="col-md-10 clip_body">
+						<%= topic.body %>
+					</div>
+
+					<div class="col-md-2">
+						<%= link_to "削除",  clip_path(@clips[i][:id]), method: :delete, class: "text-center" %>
+					</div>
+
+					<hr>
+					<hr>
+					<hr>
+
+				 <% end %>
+			</div>
+		 <% end %>
+
+
+		<% if @user.id == current_user.id %>
+			<div class="tab-pane" id="sampleContentC">
+				<div class="row">
+					<div class="col-md-12">
+						<%= form_for @user , url: user_path , html: {method: "PATCH"} do |f| %>
+							<div class="col-md-3">User Name</div>
+							<div class="col-md-9"><%= f.text_field :name,class: "col-md-6"  %></div>
+
+							<div class="col-md-3">Email</div>
+							<div class="col-md-9"><%= f.email_field :email,class: "col-md-6"  %></div>
+
+							<div class="col-md-3">Icon</div>
+							<div class="col-md-9"><%= f.attachment_field :profile_image  %></div>
+
+							<div class="col-md-3"></div>
+							<div class="col-md-9"><%= f.submit "update" ,class: "btn btn-sm btn-default col-md-6 border_edit" %></div>
+						<% end %>
+
+						<hr>
+
+						<!-- <h2>Change password</h2> -->
+						<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f| %>
+						<%= devise_error_messages! %>
+						<%= f.hidden_field :reset_password_token %>
+						<div class="col-md-3">New password</div>
+
+						<div class="col-md-9">
+						<% if @minimum_password_length %>
+						<em>(<%= @minimum_password_length %> characters minimum)</em>
+						<% end %>
+						<%= f.password_field :password, autofocus: true, autocomplete: "off",class: "col-md-6"  %>
+						</div>
+
+						<div class="col-md-3">Confirm new password</div>
+						<div class="col-md-9"><%= f.password_field :password_confirmation, autocomplete: "off",class: "col-md-6"  %></div>
+
+						<div class="col-md-3"></div>
+						<div class="col-md-9"><%= f.submit "Change password",class: "btn btn-sm btn-default col-md-6 border_edit"%></div>
+						<% end %>
+
+						<hr>
+					</div>
+				</div>
+			</div>
+		<% end %>
+
+			<div class="tab-pane" id="sampleContentD">
+				<div class="col-md-6">
+					<h4>All following</h4>
+					<% @user.followings.each do |user| %>
+						<div class="col-md-3">
+							<%= attachment_image_tag user, :profile_image, fallback: "no_image_top.jpg",class: "img-thumbnail img-responsive circle center-block user_show_image" %>
+						</div>
+						<div class="col-md-9 friend_user">
+							<%= link_to user_path(user) do %>
+								<%= user.name %>
+							<% end %>
+						</div>
+						<hr>
+					<% end %>
+				</div>
+
+				<div class="col-md-6">
+					<h4>All follower</h4>
+					<% @user.followers.each do |user| %>
+						<div class="col-md-3">
+							<%= attachment_image_tag user, :profile_image, fallback: "no_image_top.jpg",class: "img-thumbnail img-responsive circle center-block user_show_image" %>
+						</div>
+						<div class="col-md-9 frinend_user">
+							<%= link_to user_path(user) do %>
+								<%= user.name %>
+							<% end %>
+						</div>
+						<hr>
+					<% end %>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-2 text-center">
+		<h3 class="">User Information</h3>
+		<%= attachment_image_tag @user, :profile_image, fallback: "no_image_top.jpg",class: "img-thumbnail img-responsive center-block" %>
+		<%= @user.name %><br>
+		<%= render 'follow_form' %>
+		<%= render 'stats' %>
+		<% if @user.id == current_user.id %>
+			<%= @user.email %>
+		<% end %>
+	</div>
+</div>
+</body>

@@ -1,0 +1,41 @@
+
+<div class="row">
+  <div class="col-md-8 col-md-offset-2">
+<% if current_user.name.blank? %>
+<h1>ユーザー情報登録してね</h1>
+
+<% else %>
+
+<%= form_for @topic do |f| %>
+
+<h3>タイトル</h3><%= f.text_field :title,class: "topic_title" %><br>
+
+<h3>URL</h3><%= f.text_field :url ,class: "topic_url"%><br>
+
+<h3>修正前のコード</h3><%= f.text_area :body ,class: "topic_body" %><br>
+
+<h3>修正後のコード</h3><%= f.text_area :re_body ,class: "topic_body" %><br>
+
+<h3>カテゴリー</h3>
+<%= collection_check_boxes(:topic, :category_ids, Category.all, :id, :category_name) do |b| %>
+<%= b.label { b.check_box + b.text }  %>
+<% end %><br>
+
+<%= f.fields_for :tags do |tag| %>
+<div class="">
+<h3>タグ</h3>
+<%= render 'tag_fields', f: tag %>
+<div class="">
+<%= link_to_add_association '追加', f, :tags %>
+</div>
+</div>
+<% end %>
+
+<br><h3>画像</h3><%= f.attachment_field :topic_image %><br>
+<%= f.submit "登録" ,class: "btn btn-default" %><br>
+<% end %>
+<% end %>
+</div>
+</div>
+
+

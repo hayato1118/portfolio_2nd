@@ -1,0 +1,170 @@
+<% if user_signed_in? %>
+<div class="col-md-12 topic_registration">
+<%= form_for @new_topic, url: confirm_topics_path do |f|  %>
+<%= f.url_field :url,class: "col-md-10" ,:placeholder => "URLで記事を登録できます。" %>
+<%= f.submit "登録", class: "col-md-2 btn-default bt-samp31" %>
+<% end %>
+</div>
+<% end %>
+
+<div class="col-md-12 second_nav">
+    <div class="col-md-10 col-md-offset-1">
+
+        <div class="col-md-3 col-md-offset-1 second_nav_box">
+            <div class="col-md-12 text-center nav_box_text">
+              登録ユーザー
+            </div>
+            <div class="col-md-12 text-center">
+              <h2><%= User.count %></h2>
+            </div>
+        </div>
+
+         <div class="col-md-3 col-md-offset-1 second_nav_box">
+            <div class="col-md-12 text-center nav_box_text">
+              記事総数
+            </div>
+            <div class="col-md-12 text-center">
+              <h2><%= Topic.count %></h2>
+            </div>
+        </div>
+
+        <div class="col-md-3 col-md-offset-1 second_nav_box">
+            <div class="col-md-12 text-center nav_box_text">
+              実装可能率
+            </div>
+            <div class="col-md-12 text-center">
+             <%# if (@percent * 100).round(1).nan? %>
+                  <!-- <h2><%#= 0 %>％</h2> -->
+              <%# else %>
+                  <h2><%= (@percent * 100).round(1) %>％</h2>
+              <%# end %>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="col-md-12 search_area">
+        <%= form_tag topics_path, :method => 'get' do %>
+            <%= text_field_tag :search, params[:search] ,class: "col-md-10 topic_form_index",:placeholder => "記事の検索ができます。" %>
+            <%= submit_tag '検索', :name => nil , class: "btn btn-default col-md-2 topic_submit_index bt-samp31" %>
+        <% end %>
+  </div>
+
+
+<div class="row">
+    <div class="col-md-7 col-md-offset-1">
+      <% if @topic_search != [] %>
+       <h3> <%= params[:search] %></h3>
+       <% else %>
+        <h3>記事一覧</h3>
+        <% end %>
+          <% if flash[:notice] %>
+        <label style="color:red;"><%= flash[:notice] %></label>
+      <% end %>
+        <table class="table">
+            <tbody>
+                <% @categories.each do |category| %>
+                    <tr>
+                        <% if category.percentage.nan? %>
+                              <td nowrap rowspan="2"><%= 0 %>%</td>
+                          <% else %>
+                              <td nowrap rowspan="2"><%= category.percentage.to_i %>%</td>
+                        <% end %>
+                        <td class="topic_title_index" colspan="3">
+                            <% if category.is_new %>
+                                <label class="new_label">新着</label>
+                            <% end %>
+                            <%= link_to "#{category.title}", topic_path(category),class: "topic_title_index" %></td>
+                        <td nowrap ><% if user_signed_in? %><%= link_to "クリップ", add_topic_path(category.id), method: :post %><% end %></td>
+                    </tr>
+                    <tr>
+                        <td nowrap>できた：<%= category.good_count %>　できない：<%= category.bad_count %></td>
+                        <td nowrap><%= category.page_count %>PV</td>
+                        <td>
+                            <% category.categories.each do |category| %>
+                                 <%= link_to "#{category.category_name}", categories_path(category_name: category.category_name)  %>
+                            <% end %>
+                        </td>
+                        <td nowrap><%= category.user.name %></td>
+                    </tr>
+                <% end %>
+            </tbody>
+        </table>
+
+
+
+<div class="col-md-12 text-center">
+        <%= paginate @topics, class: "pagenate" %>
+</div>
+    </div>
+
+    <div class="col-md-3">
+       <h3>ランキング</h3>
+        <!-- タブ・メニュー -->
+        <ul class="nav nav-tabs">
+              <li class="active tab_size"><a class="tab_font_size" href="#sampleContentA" data-toggle="tab">ユーザー</a></li>
+              <li class="tab_size"><a class="tab_font_size" href="#sampleContentB" data-toggle="tab">記事</a></li>
+              <li class="tab_size"><a class="tab_font_size" href="#sampleContentC" data-toggle="tab">いいね</a></li>
+        </ul>
+
+        <!-- タブ内容 -->
+        <div class="tab-content">
+              <div class="tab-pane active" id="sampleContentA">
+                  <table class="col-md-12">
+                    <tbody>
+                      <% @user_rank.each.with_index(1) do |user_rank, i| %>
+                          <tr>
+                            <td><%= "第#{i}位" %>：</td>
+                            <td><%=link_to "#{user_rank.name}", user_path(user_rank) %></td>
+                          </tr>
+                          <tr class="ranking_border">
+                             <td><%= attachment_image_tag user_rank, :profile_image, size: '50x50', fallback: "no_image_top.jpg", class: "" %></td>
+                            <td>followers：<%= user_rank.follower_count %></td>
+                          </tr>
+                      <% end %>
+                    </tbody>
+                  </table>
+              </div>
+
+
+              <div class="tab-pane" id="sampleContentB">
+                  <table>
+                    <tbody>
+                      <% @page_rank.each.with_index(1) do |page_rank, i| %>
+                          <tr>
+                            <td colspan="2"><%= "第#{i}位" %>：<%=link_to "#{page_rank.title}", topic_path(page_rank) %></td>
+                          </tr>
+                          <tr class="ranking_border">
+                            <td><%= page_rank.user.name %></td>
+                            <td>views：<%= page_rank.page_count %></td>
+                          </tr>
+                      <% end %>
+                    </tbody>
+                  </table>
+              </div>
+
+
+              <div class="tab-pane" id="sampleContentC">
+                  <table>
+                    <tbody>
+                      <% @good_rank.each.with_index(1) do |good_rank, i| %>
+                          <tr>
+                            <td colspan="2"><%= "第#{i}位" %>：<%=link_to "#{good_rank.title}", topic_path(good_rank) ,class: "ranking_box"%></td>
+                          </tr>
+                          <tr class="ranking_border">
+                            <td><%= attachment_image_tag good_rank.user, :profile_image, size: '50x50', fallback: "no_image_top.jpg", class: "" %></td>
+                            <td>score：<%= good_rank.good_count %></td>
+                          </tr>
+                      <% end %>
+                    </tbody>
+                  </table>
+              </div>
+        </div>
+    </div>
+</div>
+
+
+

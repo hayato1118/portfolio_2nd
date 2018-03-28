@@ -1,0 +1,2 @@
+module TopicGoodsHelper
+end

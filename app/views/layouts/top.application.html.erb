@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Minmemo</title>
+    <%= csrf_meta_tags %>
+
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1/jquery-ui.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1/i18n/jquery.ui.datepicker-ja.min.js"></script>
+    <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/smoothness/jquery-ui.css" >
+  </head>
+
+<body class="top">
+<header>
+
+<% if user_signed_in? %>
+    <div class="col-md-4 header_logo">
+      <%= link_to "みんなのメモ" ,topics_path,class: "header_list_a logo_top" %>
+    </div>
+
+    <div class="col-md-8 header_list">
+      <%=link_to "記事一覧", topics_path,class: "header_list_a" %>
+      <%=link_to "ユーザー情報", user_path(current_user.id),class: "header_list_a" %>
+      <%=link_to "ログアウト", destroy_user_session_path, :method => :delete,class: "header_list_a" %>
+    </div>
+
+<% else %>
+
+  <div class="col-md-6 header_logo">
+      <%= link_to "みんなのメモ" ,topics_path,class: "header_list_a logo_top" %>
+  </div>
+  <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+      <%= devise_error_messages! %>
+      <div class="col-md-6 header_list">
+          <%= f.email_field :email, autofocus: true, autocomplete: "email",class: "email_form",:placeholder => "Email"  %>
+
+          <% if @minimum_password_length %>
+                <em>(<%= @minimum_password_length %> characters minimum)</em>
+          <% end %>
+          <%= f.password_field :password, autocomplete: "off",:placeholder => "Password"  %>
+          <%= f.submit "新規登録", class: "btn btn-default login_form"  %>
+          <%= link_to "ログインへ", topics_path,class: "header_list_a"  %>
+      </div>
+  <% end %>
+<% end %>
+
+</header>
+
+
+
+
+</body>
+<%= yield %>
+<footer>
+</footer>
+</html>
+
+
+
+
+
+
+
+
+
+
+

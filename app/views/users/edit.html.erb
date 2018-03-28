@@ -1,0 +1,27 @@
+
+
+
+
+<div class="row">
+  <div class="col-md-8 col-md-offset-2">
+      <h3>ユーザー情報</h3>
+  </div>
+
+<div class="col-md-6 col-md-offset-2">
+<%= form_for @users do |f| %>
+<li>ユーザー名：<%= f.text_field :name %></li>
+<li>メールアドレス：<%= f.email_field :email %></li>
+<li>アイコン：<%= f.attachment_field :profile_image ,class: "btn btn-primary" %></li>
+<%= f.submit "保存" %>
+<% end %>
+</div>
+
+
+<div class="col-md-2">
+<h1>ユーザー情報</h1>
+<%= attachment_image_tag current_user, :profile_image, fallback: "no_image_top.jpg",class: "img-thumbnail img-responsive center-block" %>
+<%= link_to "マイページ", user_path(current_user) %>
+</div>
+
+</div>
+</body>

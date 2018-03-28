@@ -1,0 +1,260 @@
+<div class="col-md-12 second_nav">
+    <div class="col-md-10 col-md-offset-1">
+        <div class="col-md-9">
+            <%if @topic.user != current_user %>
+                <% if user_signed_in? %>
+                    <%= link_to "クリップ", add_topic_path(@topic.id), method: :post,class: "square_btn" %>
+                <% end %>
+            <% end %>
+              <h2><%= @topic.title %></h2>
+              <div class="pull-left"><%=link_to user_path(@topic.user.id) do %><%= attachment_image_tag @topic.user, :profile_image, fallback: "no_image_top.jpg",class: "user_icon" ,size: '30x30' %><%= @topic.user.name %><% end %></div><div class="pull-right"><%= @topic.created_at.strftime("%m#{"月"}%d#{"日"}")%></div>
+        </div>
+
+
+        <div class="col-md-3">
+              <div class="col-md-4 text-left">
+                <h5 class="ranking_display">PV</h5>
+                <h5 class="ranking_display"><%= @topic.page_count %></h5>
+                <h5 class="ranking_display">VIEW</h5>
+              </div>
+              <div class="col-md-4 text-left">
+                <h5 class="ranking_display">できた人</h5>
+                <h5 class="ranking_display"><%= @topic.topic_goods.count %></h5>
+                <h5 class="ranking_display">PERSONS</h5>
+              </div>
+              <div class="col-md-4 text-left">
+                <h5 class="ranking_display">できない人</h5>
+                <h5 class="ranking_display"><%= @topic.topic_bads.count %></h5>
+                <h5 class="ranking_display">PERSONS</h5>
+              </div>
+
+
+            <div class="col-md-6">
+                <%if @topic.user != current_user %>
+                    <% if user_signed_in? %>
+                        <% if current_user.already_topic_bad?(@topic) == false %>
+                            <% if user_signed_in? %>
+                                <div>
+                                    <% if current_user.already_topic_good?(@topic) %>
+                                        <%= button_to '取り消す', topic_topic_good_path(@topic), method: :delete, class: "square_btn_good" %>
+                                    <% else %>
+                                        <%= form_for [@topic, @topic_good] do |f| %>
+                                            <% if @topic_good.errors.any? %>
+                                                <% @topic_good.errors.full_messages.each do |msg| %>
+                                                    <li style="color: red;"><%= msg %></li>
+                                                <% end %>
+                                            <% end %>
+                                            <%= f.submit 'できた',class: "square_btn_good" %>
+                                        <% end %>
+                                    <% end %>
+                                </div>
+                            <% end %>
+                        <% end %>
+                    <% end %>
+                 <% end %>
+            </div>
+
+
+
+
+            <div class="col-md-6">
+             <%if @topic.user != current_user %>
+                <% if user_signed_in? %>
+                    <% if current_user.already_topic_good?(@topic) == false %>
+                        <% if user_signed_in? %>
+                            <% if current_user.already_topic_bad?(@topic) %>
+                                <%= button_to '取り消す',topic_topic_bad_path(@topic), method: :delete, class: "square_btn_bad" %>
+                            <% else %>
+                                <%= form_for [@topic, @topic_bad] do |f| %>
+                                    <% if @topic_bad.errors.any? %>
+                                        <% @topic_bad.errors.full_messages.each do |msg| %>
+                                            <li style="color: red;"><%= msg %></li>
+                                        <% end %>
+                                    <% end %>
+                                <%= f.submit 'できない',class: "square_btn_bad" %>
+                                <% end %>
+                            <% end %>
+                        <% end %>
+                    <% end %>
+                <% end %>
+             <% end %>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+ <div class="col-md-12 third_nav">
+        <div class="col-md-10 col-md-offset-1">
+            <div class="tag">
+                 <ul class="ul">
+                    <% @topic.categories.each do |category| %>
+                         <li class="li">
+                        <%= link_to "#{category.category_name}", categories_path(category_name: category.category_name), class: "btn btn-primary" %>
+                         </li>
+                    <% end %>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+<div class="row">
+    <div class="col-md-10 col-md-offset-1">
+        <div class="col-md-12">
+            <div class="col-md-12 ogp">
+                <%= link_to "#{@topic.url}" do %>
+                  <div class="col-md-2 text-center">
+                    <% if  @topic.url.include?("teratail") then %>
+                            <%= image_tag 'teratail_top.jpg',:size =>'100x100' %>
+                    <% elsif @topic.url.include?("qiita") then %>
+                            <%= image_tag 'Qiita.png',:size =>'100x100' %>
+                    <% else %>
+                            <%= image_tag 'no_image.png',:size =>'100x100' %>
+                    <% end %>
+                  </div>
+                  <% end %>
+
+                  <div class="col-md-10">
+                        <div class="col-md-12 show_title">
+                            <%= link_to "#{@topic.url}" do %>
+                                <%= @topic.title %>
+                            <% end %>
+                        </div>
+
+                        <div class="col-md-12 show_url">
+                            <%= @topic.url %>
+                        </div>
+
+                        <div class="col-md-12 show_paragraph">
+                            <%= @topic.paragraph %>
+                        </div>
+
+                         <div class="col-md-6 show_author">
+                            <% if  @topic.url.include?("qiita") then %>
+                                <%= link_to "https://qiita.com/#{@topic.author.delete!("@")}" do %>
+                                    @<%= @topic.author %>
+                                <% end %>
+
+                            <% elsif @topic.url.include?("teratail") then %>
+                                <%= link_to "https://teratail.com/users/#{@topic.author}" do %>
+                                    @<%= @topic.author %>
+                                <% end %>
+
+                            <% else %>
+
+                            <% end %>
+                        </div>
+
+                        <div class="show_posted_day">
+                            <%= @topic.posted_day %>
+                        </div>
+                  </div>
+              </div>
+        </div>
+
+
+
+
+        <div class="col-md-12">
+             <% if @topic.paragraph.blank? == false %>
+                    <h5 class="topic_margin">記事本文</h5>
+                    <div style="white-space:pre-wrap" class="col-md-12 body_box"><%= @topic.paragraph %></div>
+              <% end %>
+        </div>
+
+
+         <%= attachment_image_tag @topic, :topic_image , class: "col-md-12 topic_image topic_margin"  %>
+
+
+        <div class="col-md-12">
+            <% if @topic.body.blank? == false %>
+                    <h5 class="topic_margin">修正前コード</h5>
+                    <div  style="white-space:pre-wrap" class="col-md-12 body_box"><%= @topic.body %></div>
+            <% end %>
+
+            <% if @topic.re_body.blank? == false %>
+                    <h5 class="topic_margin">修正後コード</h5>
+                    <div  style="white-space:pre-wrap" class="col-md-12 body_box"><%= @topic.re_body %></div>
+             <% end %>
+        </div>
+
+        <div class="col-md-12 main_icon">
+            <div class="col-md-6">
+                <% if @topic.user == current_user || admin_signed_in? %>
+                    <%= link_to edit_topic_path(@topic),class: "btn btn-default" do %>
+                <i class="glyphicon glyphicon-pencil">編集</i>
+                <% end %>
+                <% end %>
+            </div>
+
+
+            <div class="col-md-6">
+                <% if @topic.user == current_user || admin_signed_in? %>
+                    <i class="glyphicon glyphicon-trash show_icon"><label>
+                        <%= link_to "削除", topic_path(@topic),:confirm => '削除しますか?',:method => :delete  %>
+                     </label></i>
+                    <i class="glyphicon glyphicon-thumbs-up show_icon"><label><%= @topic.topic_goods.count %></label></i>
+                    <i class="glyphicon glyphicon-paperclip show_icon"><label>3</label></i>
+
+                <i class="glyphicon glyphicon-stats show_icon"><label>
+                    <% @num = @topic.bad_count + @topic.good_count %>
+                    <% if @topic.percentage.nan? %>
+                    <%# if ((@topic.good_count.to_f.round(1)/ (@num).round(1) ) * 100).round(1).nan? %>
+                    <%= 0 %>%
+                    <% else %>
+                    <%= @topic.percentage.to_i %>%
+                    <% end %>
+                </label></i>
+                <% end %>
+            </div>
+        </div>
+
+
+        <!-- ====================コメント機能======================= -->
+        <% if user_signed_in? %>
+            <div class="col-md-12">
+                <!-- <%#= @topic.topic_comments.count %>件コメント -->
+                <hr>
+                <% @topic.topic_comments.each do |topic_comment| %>
+                    <li>コメントID：<%= topic_comment.id %></li>
+                    <li>投稿者：<%= topic_comment.user.name %></li>
+                    <li style="white-space:pre-wrap" class="comment_box"><%= topic_comment.comment  %>
+                        <h5 class="pull-right">投稿日<%= topic_comment.created_at.strftime('%Y/%m/%d') %>
+                         <% if topic_comment.user == current_user || current_admin %>
+                        <%= link_to  topic_topic_comment_path(@topic, topic_comment),:confirm => 'コメントを削除しますか?',:method => :delete  do %><i class="glyphicon glyphicon-trash show_icon">削除</i>
+                        <% end %>
+                        <% end %>
+                        </h5>
+                    </li>
+
+                     <hr>
+                <% end %>
+                <%= form_for [@topic, @topic_comment] do |f| %>
+                    <div class="">
+                        <%= f.text_area :comment, class: "form-control",placeholder: "コメントをここに" %>
+                    </div>
+                    <%= f.submit "送信する", class: "btn btn-default" %>
+                <% end %>
+            </div>
+        <% end %>
+        </div>
+        <!-- ====================コメント機能======================= -->
+    </div>
+</body>
+
+
+
+<div class="col-md-12 second_footer">
+    <div class="col-md-10 col-md-offset-1">
+        <div class="tag_footer">
+            <ul class="ul_footer">
+                TAG >> <% @topic.tags.each do |tag| %>
+                <li class="li_footer">
+                    <%= link_to "#{tag.tag_name}", tags_path(tag_name: tag.tag_name),class: "tag_list" %>
+                </li>
+            <% end %>
+            </ul>
+        </div>
+    </div>
+</div>
+

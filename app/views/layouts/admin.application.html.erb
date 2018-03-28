@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Minmemo</title>
+    <%= csrf_meta_tags %>
+
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1/jquery-ui.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1/i18n/jquery.ui.datepicker-ja.min.js"></script>
+  </head>
+
+<body class='<%= "#{controller.controller_name}" %>'>
+<header>
+<nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <%= link_to root_path do %>
+          <%= image_tag 'logo.png', class: "logo" %>
+          <% end %>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+          <% if admin_signed_in? %>
+              <li class="nav_list"><%= link_to "管理者トップ", admins_top_path %></li>
+		           <li class="nav_list"><%= link_to "ログアウト", destroy_admin_session_path, :method => :delete %></li>
+		  <% else %>
+                <li class="nav_list"><%= link_to "トップ", root_path, class: "nav_registration"%></li>
+	   	  <% end %>
+          </ul>
+        </div>
+      </div>
+    </nav>
+</div>
+</header>
+
+<p id="notice"></p>
+
+<%= yield %>
+
+<footer>
+
+</footer>
+</html>
