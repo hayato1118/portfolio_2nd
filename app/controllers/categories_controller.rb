@@ -22,20 +22,29 @@ class CategoriesController < ApplicationController
     @user_rank = User.order('follower_count DESC').limit(10)
 
 
-    @categories.each do |category|
+     @all_good_count = 0
+    @all_bad_count = 0
+    @total = 0
+    @num = 0
+    @percent = 0
+
+    @categories.each do |topic|
+
     # 全体のできない数
-      @all_good_count = category.good_count
+      @all_good_count += topic.good_count
 
     # 全体のできた数
-      @all_bad_count = category.bad_count
+      @all_bad_count += topic.bad_count
 
     # 個別の記事の投票数
-      @num = category.bad_count + category.good_count
-end
+      @num = topic.bad_count + topic.good_count
+
+    end
     # 全体の記事の投票数
     @total = @all_bad_count + @all_good_count
     # 全体の記事の実装可能率
     @percent = (@all_good_count.to_f) / (@total)
+
     @new_topic = Topic.new
 	end
 

@@ -103,9 +103,7 @@ div#sampleContentD {
   margin-top:20px;
 }
 
-.row{
-  margin-bottom:100px;
-}
+
 
 .top{
   background-image: url("backimage.jpg");
@@ -208,6 +206,14 @@ a.header_list_a:hover {
  margin-bottom:30px;
 }
 
+.contact_index{
+  color:#FFF;
+}
+
+.border_line{
+  margin-top:150px;
+}
+
 /*全体,全体,全体,全体,全体,全体,全体,全体,全体,全体,全体,全体,全体,全体,全体,全体,全体,全体,全体,全体,全体,全体,全体,全体,全体,*/
 
 /*トピックトピックトピックトピックトピックトピックトピックトピックトピックトピックトピックトピックトピックトピックトピックトピックトピック*/
@@ -286,7 +292,7 @@ a.header_list_a:hover {
 
 .second_nav_box {
   height:150px;
-  color: #5d627b;
+  color: #222;
   background: white;
   border-top: solid 5px #5d627b;
   box-shadow: 0 3px 5px rgba(0, 0, 0, 0.22);
@@ -423,7 +429,7 @@ a.header_list_a:hover {
 }
 .tag ul li a::before {
   position: absolute;
-  top: 0;
+  top: -1px;
   left: -15px;
   content: '';
   width: 0;
@@ -606,7 +612,14 @@ a.header_list_a:hover {
     margin-top:80px;
 }
 
-
+.must{
+    background-color: red;
+    color: #FFF;
+    padding:2px 4px;
+    margin-left:10px;
+    margin-bottom:20px;
+    font-size:10px;
+}
 
 
 
@@ -648,6 +661,10 @@ a.header_list_a:hover {
 
 .border_edit{
   margin-bottom:20px;
+}
+
+.c_border{
+  margin-top:20px;
 }
 }
 
@@ -730,7 +747,7 @@ a.header_list_a:hover {
 
 .second_nav_box {
   height:150px;
-  color: #5d627b;
+  color: #222;
   background: white;
   border-top: solid 5px #5d627b;
   box-shadow: 0 3px 5px rgba(0, 0, 0, 0.22);
@@ -1131,7 +1148,7 @@ a.header_list_a:hover {
 
 .second_nav_box {
   height:150px;
-  color: #5d627b;
+  color: #222;
   background: white;
   border-top: solid 5px #5d627b;
   box-shadow: 0 3px 5px rgba(0, 0, 0, 0.22);

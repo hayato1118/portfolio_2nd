@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Users::SessionsController < Devise::SessionsController
+  before_action :screen_user
   # before_action :configure_sign_in_params, only: [:create]
 
   # GET /resource/sign_in
@@ -37,6 +38,11 @@ class Users::SessionsController < Devise::SessionsController
     { scope: resource_name, recall: "#{controller_path}#failed" }
   end
 
+def screen_user
+      unless user_signed_in? || admin_signed_in?
+        redirect_to root_path
+      end
+    end
 
   # protected
 

@@ -8,12 +8,14 @@ class TopicsController < ApplicationController
     # @topic = Topic.search(params[:search])
     # @topics = Kaminari.paginate_array(@topic).page(params[:page])
     if params[:search].present?
-      @topic = Topic.search(params[:search])
-      @topic_search = Topic.search(params[:search])
-      if @topic == []
-        @topic = Topic.all
-        flash.now[:notice] = "検索に一致する商品がありませんでした。"
-      end
+          @topic = Topic.search(params[:search])
+          @topic_search = Topic.search(params[:search])
+          @hi_admin = request.url.include?("hi%21admin")
+          @iamadmin = request.url.include?("iamadmin")
+          if @topic == []
+            @topic = Topic.all
+            flash.now[:notice] = "検索に一致する商品がありませんでした。"
+          end
     else
       @topic = Topic.all
     end
@@ -55,6 +57,7 @@ class TopicsController < ApplicationController
     # 全体の記事の実装可能率
     @percent = (@all_good_count.to_f) / (@total)
     @new_topic = Topic.new
+    render :layout => 'index.application'
   end
 
 
@@ -63,50 +66,68 @@ class TopicsController < ApplicationController
      @topic.tags.build
      @topic.user_id = current_user.id
      uri = @topic.url
-     if uri == ""
+
+    unless @topic.valid?(:url)
+      # binding.pry
+      flash[:notice] = "重複記事があります。"
       redirect_to topics_path
-     else
-     @doc = Nokogiri::HTML(open(uri),nil,"utf-8")
-# =====================================  タイトルについて  ===============================================
+    else
 
-      @h1 = @doc.css("h1").first.text
+       if uri == ""
+        redirect_to topics_path
+       else
+   # if @topic.url.uniq == true
+    # binding.pry
+    # redirect_to topics_path
+  # else
+       @doc = Nokogiri::HTML(open(uri),nil,"utf-8")
+  # =====================================  タイトルについて  ===============================================
 
-# =====================================  タイトルについて  ===============================================
-# =====================================  コードについて    ===============================================
+        @h1 = @doc.css("h1").first.text
 
-      @pre = @doc.css("pre").text
+  # =====================================  タイトルについて  ===============================================
+  # =====================================  コードについて    ===============================================
 
-# =====================================  コードについて  ===============================================
-# =====================================  本文について    ===============================================
+        @pre = @doc.css("pre").text
 
-      @p = @doc.css("p").text
+  # =====================================  コードについて  ===============================================
+  # =====================================  本文について    ===============================================
 
-# =====================================  本文について    ===============================================
-# =====================================  記述日について  ===============================================
+        @p = @doc.css("p").text
 
-      if @topic.url.include?("qiita") then
-          @time = @doc.css("time").first.text
-      elsif @topic.url.include?("teratail") then
-          @time = @doc.css("time").first.text
-      else
-          @time = nil
+  # =====================================  本文について    ===============================================
+  # =====================================  記述日について  ===============================================
+
+        if @topic.url.include?("qiita") then
+            @time = @doc.css("time").first.text
+        elsif @topic.url.include?("teratail") then
+            @time = @doc.css("time").first.text
+        else
+            @time = nil
+        end
+
+  # =====================================  記述日について  ===============================================
+  # =====================================  著者について    ===============================================
+
+        if  @topic.url.include?("qiita") then
+            @author = @doc.xpath('//*[contains(concat( " ", @class, " " ), concat( " ", "it-Header_authorName", " " ))]').text
+        elsif @topic.url.include?("teratail") then
+            @author = @doc.xpath('//*[@id="l-headContents"]/div/div[2]/div/p[1]/a').text
+        else
+            @author = nil
+        end
       end
-
-# =====================================  記述日について  ===============================================
-# =====================================  著者について    ===============================================
-
-      if  @topic.url.include?("qiita") then
-          @author = @doc.xpath('//*[contains(concat( " ", @class, " " ), concat( " ", "it-Header_authorName", " " ))]').text
-      elsif @topic.url.include?("teratail") then
-          @author = @doc.xpath('//*[@id="l-headContents"]/div/div[2]/div/p[1]/a').text
-      else
-          @author = nil
-      end
+    end
  end
 # =====================================  著者について  ===============================================
 
-     render :new if @topic.invalid?
-  end
+  #    render :new if @topic.invalid?
+  # end
+
+
+
+
+
 
 
   def show
@@ -134,10 +155,14 @@ class TopicsController < ApplicationController
   # end
 
   def create
-	@topic = Topic.new(topic_params)
-	@topic.user_id = current_user.id
-  @topic.save
-	redirect_to topics_path
+  	@topic = Topic.new(topic_params)
+  	@topic.user_id = current_user.id
+    if @topic.save
+    	redirect_to topics_path
+    else
+      flash[:notice] = "重複記事があります。"
+      redirect_to topics_path
+    end
   end
 
   def edit

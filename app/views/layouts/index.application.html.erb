@@ -15,7 +15,7 @@
 <nav class="navbar navbar-default navbar-fixed-top">
       <div class="container-fluid">
         <div class="navbar-header">
-          <%= link_to topics_path do %>
+          <%= link_to root_path do %>
           <%= image_tag 'logo.png', class: "logo" %>
           <% end %>
         </div>
@@ -48,6 +48,8 @@
     管理者ログイン中
 </div>
 <% end %>
+
+
 <footer>
     <div class="col-md-12 footer">
         <div class="col-md-10 col-md-offset-1">
@@ -76,7 +78,7 @@
             <div class="col-md-5">
                 <ul>
                     <li class="contact_index">-Contact-</li>
-                     <%= form_for @contact, url: contacts_path , html: {method: "POST"} do |f| %>
+                    <%= form_for @contact, url: contacts_path , html: {method: "POST"} do |f| %>
                     <li><%= f.text_field :title ,class: "col-md-12 contact contact_title",:placeholder => "Title"  %></li>
                     <li><%= f.email_field :email,class: "col-md-12 contact contact_email",:placeholder => "Email"  %></li>
                     <li><%= f.text_area :body ,class: "col-md-12 contact contact_body",:placeholder => "Message"  %></li>
@@ -88,7 +90,4 @@
     </div>
 </footer>
 </html>
-
-
-
 

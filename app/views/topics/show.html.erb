@@ -15,7 +15,7 @@
               <div class="col-md-4 text-left">
                 <h5 class="ranking_display">PV</h5>
                 <h5 class="ranking_display"><%= @topic.page_count %></h5>
-                <h5 class="ranking_display">VIEW</h5>
+                <h5 class="ranking_display">VIEWS</h5>
               </div>
               <div class="col-md-4 text-left">
                 <h5 class="ranking_display">できた人</h5>
@@ -98,7 +98,15 @@
         </div>
     </div>
 
-<div class="row">
+ <div class="col-md-12">
+    <div class="col-md-10 col-md-offset-1">
+          <% if flash[:notice] %>
+            <label style="color:red;"><%= flash[:notice] %></label>
+          <% end %>
+    </div>
+</div>
+
+<div class="">
     <div class="col-md-10 col-md-offset-1">
         <div class="col-md-12">
             <div class="col-md-12 ogp">
@@ -243,6 +251,8 @@
 </body>
 
 
+<div class="col-md-12 border_line">
+</div>
 
 <div class="col-md-12 second_footer">
     <div class="col-md-10 col-md-offset-1">

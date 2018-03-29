@@ -42,6 +42,23 @@ has_many :following_relationships, foreign_key: "follower_id", class_name: "Rela
 
  has_many :followers, through: :follower_relationships
 
+ validates :email, format: { with: /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i }
+
+
+  def soft_delete
+      update(deleted_at: Time.now)
+  end
+
+  def active_for_authentication?
+    !deleted_at
+  end
+
+  def inactive_message
+    !deleted_at ? super : :deleted_account
+  end
+
+
+
   def following?(other_user)
     following_relationships.find_by(following_id: other_user.id)
   end
@@ -53,5 +70,8 @@ has_many :following_relationships, foreign_key: "follower_id", class_name: "Rela
   def unfollow!(other_user)
     following_relationships.find_by(following_id: other_user.id).destroy
   end
+
+
+
 
 end

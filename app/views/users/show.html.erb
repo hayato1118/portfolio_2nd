@@ -1,19 +1,19 @@
-<div class="row">
+<div class="">
 	<div class="col-md-8 col-md-offset-2">
-		<h3>ユーザー情報</h3>
+		<h3></h3>
 	</div>
 	<div class="col-md-6 col-md-offset-2">
 		<!-- タブ・メニュー -->
 		<ul class="nav nav-tabs">
 			<li class="active"><a href="#sampleContentA" data-toggle="tab"><i class="glyphicon glyphicon-pencil"></i>My Created Topics</a></li>
 
-			<% if @user.id == current_user.id %>
+			<% if @user == current_user || admin_signed_in? %>
 			<li><a href="#sampleContentB" data-toggle="tab"><i class="glyphicon glyphicon-paperclip"></i>Favorite</a></li>
 			<% end %>
 
 
 
-			<% if @user.id == current_user.id %>
+			<% if @user == current_user || admin_signed_in? %>
 			<li><a href="#sampleContentC" data-toggle="tab"><i class="glyphicon glyphicon-user"></i>User edit</a></li>
 			<% end %>
 			<li><a href="#sampleContentD" data-toggle="tab"><i class="glyphicon glyphicon-thumbs-up"></i>Friends</a></li>
@@ -45,8 +45,7 @@
 					 <% end %>
 			</div>
 
-
-		<% if @user.id == current_user.id %>
+		<% if @user == current_user || admin_signed_in? %>
 			<div class="tab-pane" id="sampleContentB">
 				 <% @user.clip_topics.each_with_index do |topic, i| %>
 					<div class="col-md-10 clip_body">
@@ -59,7 +58,7 @@
 					</div>
 
 					<div class="col-md-10 clip_body">
-						<%= topic.body %>
+						<%= topic.paragraph %>
 					</div>
 
 					<div class="col-md-2">
@@ -75,46 +74,48 @@
 		 <% end %>
 
 
-		<% if @user.id == current_user.id %>
+		<% if @user == current_user || admin_signed_in? %>
 			<div class="tab-pane" id="sampleContentC">
-				<div class="row">
+				<div class="">
+					<div class="col-md-12 c_border">
+					</div>
 					<div class="col-md-12">
 						<%= form_for @user , url: user_path , html: {method: "PATCH"} do |f| %>
-							<div class="col-md-3">User Name</div>
-							<div class="col-md-9"><%= f.text_field :name,class: "col-md-6"  %></div>
+							<div class="col-md-5">User Name</div>
+							<div class="col-md-7"><%= f.text_field :name,class: "col-md-8"  %></div>
 
-							<div class="col-md-3">Email</div>
-							<div class="col-md-9"><%= f.email_field :email,class: "col-md-6"  %></div>
+							<div class="col-md-5">Email</div>
+							<div class="col-md-7"><%= f.email_field :email,class: "col-md-8"  %></div>
 
-							<div class="col-md-3">Icon</div>
-							<div class="col-md-9"><%= f.attachment_field :profile_image  %></div>
+							<div class="col-md-5">Icon</div>
+							<div class="col-md-7"><%= f.attachment_field :profile_image  %></div>
 
-							<div class="col-md-3"></div>
-							<div class="col-md-9"><%= f.submit "update" ,class: "btn btn-sm btn-default col-md-6 border_edit" %></div>
+							<div class="col-md-5"></div>
+							<div class="col-md-7"><%= f.submit "update" ,class: "btn btn-sm btn-default col-md-8 border_edit" %></div>
 						<% end %>
 
-						<hr>
-
-						<!-- <h2>Change password</h2> -->
 						<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f| %>
 						<%= devise_error_messages! %>
 						<%= f.hidden_field :reset_password_token %>
-						<div class="col-md-3">New password</div>
+						<div class="col-md-5">New password</div>
 
-						<div class="col-md-9">
+						<div class="col-md-7">
 						<% if @minimum_password_length %>
 						<em>(<%= @minimum_password_length %> characters minimum)</em>
 						<% end %>
-						<%= f.password_field :password, autofocus: true, autocomplete: "off",class: "col-md-6"  %>
+						<%= f.password_field :password, autofocus: true, autocomplete: "off",class: "col-md-8"  %>
 						</div>
 
-						<div class="col-md-3">Confirm new password</div>
-						<div class="col-md-9"><%= f.password_field :password_confirmation, autocomplete: "off",class: "col-md-6"  %></div>
+						<div class="col-md-5">Confirm new password</div>
+						<div class="col-md-7"><%= f.password_field :password_confirmation, autocomplete: "off",class: "col-md-8"  %></div>
 
-						<div class="col-md-3"></div>
-						<div class="col-md-9"><%= f.submit "Change password",class: "btn btn-sm btn-default col-md-6 border_edit"%></div>
+						<div class="col-md-5"></div>
+						<div class="col-md-7"><%= f.submit "Change password",class: "btn btn-sm btn-default col-md-8 border_edit"%></div>
 						<% end %>
 
+
+						<div class="col-md-5">To delete the account</div>
+						<div class="col-md-7"><%= link_to "withdraw", user_path(@user), method: :delete, class: "btn btn-sm btn-default col-md-8 border_edit", data: { confirm: '退会時はユーザー情報は当サイトで1ヶ月の保管をさせていただいた後に完全削除をします。　承諾できますか?'} %></div>
 						<hr>
 					</div>
 				</div>
@@ -158,9 +159,11 @@
 		<h3 class="">User Information</h3>
 		<%= attachment_image_tag @user, :profile_image, fallback: "no_image_top.jpg",class: "img-thumbnail img-responsive center-block" %>
 		<%= @user.name %><br>
+		<% if @user == current_user %>
 		<%= render 'follow_form' %>
 		<%= render 'stats' %>
-		<% if @user.id == current_user.id %>
+		<% end %>
+		<% if @user == current_user || admin_signed_in? %>
 			<%= @user.email %>
 		<% end %>
 	</div>

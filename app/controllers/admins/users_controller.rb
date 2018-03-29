@@ -4,17 +4,13 @@ class Admins::UsersController < ApplicationController
 
 
   def top
-  	@user = User.all
+    @users = User.all.order(updated_at: :desc)
+    @topics = Topic.all.order(created_at: :desc)
+    @contacts = Contact.all.order(created_at: :desc)
   end
 
   def index
-  	@user = User.all
-  end
-
-  def show
-  end
-
-  def edit
+  	@users = User.all
   end
 
 	private

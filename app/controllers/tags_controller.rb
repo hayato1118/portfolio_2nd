@@ -27,7 +27,8 @@ class TagsController < ApplicationController
     @num = 0
     @percent = 0
     @one_total = 0
-    @topic.each do |topic|
+
+    @tags.each do |topic|
 
     # 全体のできない数
       @all_good_count += topic.good_count

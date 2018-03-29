@@ -1,15 +1,99 @@
+	.admin_row{
+		background:#EEEEEE;
+		height:auto;
+		padding-bottom: 100px;
+		}
 
-  .admin_box{
-  	margin-top:100px;
+
+.admin_title{
+border-bottom:3px solid #d1d1d1;
+font-weight: 900;
+}
+
+
+  .admin_box1{
+  margin-top:50px;
   height:150px;
-  border:1px solid #000000;
+  border-right:3px solid #d1d1d1;
+  border-bottom:3px solid #d1d1d1;
+  border-left:3px solid #d1d1d1;
+  border-top:10px solid #393E46;
+  border-radius: 10px;
   }
 
 
-.admin_box_second{
+  .admin_box2{
+  margin-top:50px;
+  height:150px;
+  border-right:3px solid #d1d1d1;
+  border-bottom:3px solid #d1d1d1;
+  border-left:3px solid #d1d1d1;
+  border-top:10px solid #393E46;
+  border-radius: 10px;
+  }
+
+    .admin_box3{
+  margin-top:50px;
+  height:150px;
+  border-right:3px solid #d1d1d1;
+  border-bottom:3px solid #d1d1d1;
+  border-left:3px solid #d1d1d1;
+  border-top:10px solid #393E46;
+  border-radius: 10px;
+  }
+
+
+.admin_box_second1{
 	height:400px;
 	margin-top:50px;
+	border-right:3px solid #d1d1d1;
+	border-bottom:3px solid #d1d1d1;
+	border-left:3px solid #d1d1d1;
+	border-top:10px solid #0092CA;
+	border-radius:10px;
+	 overflow:auto;
 }
+
+.admin_box_second2{
+	height:400px;
+	margin-top:50px;
+	border-right:3px solid #d1d1d1;
+	border-bottom:3px solid #d1d1d1;
+	border-left:3px solid #d1d1d1;
+	border-top:10px solid #0092CA;
+	border-radius:10px;
+	 overflow:auto;
+}
+
+
+.admin_box_second3{
+	height:400px;
+	margin-top:50px;
+	border-right:3px solid #d1d1d1;
+	border-bottom:3px solid #d1d1d1;
+	border-left:3px solid #d1d1d1;
+	border-top:10px solid #222831;
+	border-radius:10px;
+	overflow:auto;
+	word-wrap:break-word
+}
+
+.col-md-12.dashboard_box{
+	padding:0px;
+}
+
+.col-md-12.dashboard_box_second{
+	padding:0px;
+	width: 100%;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.time_day{
+	border-bottom:1px solid #d1d1d1;
+}
+
 
 .count{
 	text-align: right;

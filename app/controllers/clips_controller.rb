@@ -6,7 +6,7 @@ before_action :authenticate_user!
 			@topic_id = Topic.find(params[:id]).id
 			@clip = Clip.new(topic_id: @topic_id, user_id: @user_id)
 		if @clip.save
-			redirect_to topics_path
+			redirect_to user_path(current_user)
 		end
 	end
 

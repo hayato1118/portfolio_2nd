@@ -30,6 +30,11 @@ accepts_nested_attributes_for :tags, allow_destroy: true
 has_many :clips
 has_many :users, through: :clips
 
+validates :title, uniqueness: true
+validates :url, uniqueness: true
+
+
+
 
   def is_new
     (3.days.ago..Time.current).cover?(Time.parse(self.created_at.to_s))
@@ -52,7 +57,4 @@ has_many :users, through: :clips
     total_count = self.bad_count + self.good_count
     return ((self.good_count.to_f.round(1)/ total_count.round(1) ) * 100).round(1)
   end
-
-
-
 end

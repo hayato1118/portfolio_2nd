@@ -4,13 +4,17 @@ class ApplicationController < ActionController::Base
   before_action :contants_class
 
 	def after_sign_in_path_for(resource)
-	  topics_path
+	    case resource
+      when User
+         topics_path
+      when Admin
+        admins_top_path
+      end
 	end
 
 	def after_sign_out_path_for(resource)
 	  topics_path
 	end
-
 
   protected
   def configure_permitted_parameters

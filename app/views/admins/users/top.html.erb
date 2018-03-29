@@ -1,8 +1,8 @@
-<div class="row">
+<div class="row admin_row">
     <div class="col-md-11 col-md-offset-1">
-
+    <h1>Dashboard</h1>
    	<%= link_to admins_users_path do %>
-   	 <div class="col-md-3 admin_box" >
+   	 <div class="col-md-3 admin_box1" >
 	    	<div class="col-md-4"><h1><i class="glyphicon glyphicon-user"></i></h1></div>
 	    	<div class="col-md-8">
 	    		<div class="col-md-12 count">
@@ -12,13 +12,15 @@
 	    		Users
 		    	</div>
 	    	</div>
-		    	<div class="col-md-4"></div>
-		    	<div class="col-md-8 icon_arrow-right"><i class="glyphicon glyphicon-circle-arrow-right"></i></div>
+	    	<div class="col-md-12">
+		    	<div class="col-md-6 detail">view detail</div>
+		    	<div class="col-md-6 icon_arrow-right"><i class="glyphicon glyphicon-circle-arrow-right"></i></div>
+		    	</div>
 	  </div>
     <% end %>
 
  	<%= link_to admins_topics_path do %>
-    <div class="col-md-3 col-md-offset-1 admin_box">
+    <div class="col-md-3 col-md-offset-1 admin_box2">
 	    	<div class="col-md-4"><h1><i class="glyphicon glyphicon-list-alt"></i></h1></div>
 			<div class="col-md-8">
 				<div class="col-md-12 count">
@@ -28,15 +30,17 @@
 		   		Topics
 		   		</div>
 	    	</div>
-	    	<div class="col-md-4"></div>
-			<div class="col-md-8 icon_arrow-right"><i class="glyphicon glyphicon-circle-arrow-right"></i></div>
+	    	<div class="col-md-12">
+	    	<div class="col-md-6 detail">view detail</div>
+			<div class="col-md-6 icon_arrow-right"><i class="glyphicon glyphicon-circle-arrow-right"></i></div>
+			</div>
     </div>
     <% end %>
 
  	<%= link_to admins_contacts_path do %>
-     <div class="col-md-3 col-md-offset-1 admin_box">
-	     	<div class="col-md-4"><h1><i class="glyphicon glyphicon-envelope"></i></h1></div>
-			<div class="col-md-8">
+     <div class="col-md-3 col-md-offset-1 admin_box3">
+	     	<div class="col-md-6"><h1><i class="glyphicon glyphicon-envelope"></i></h1></div>
+			<div class="col-md-6">
 				<div class="col-md-12 count">
 				<%= Contact.count %>
 				</div>
@@ -44,19 +48,79 @@
 				Contacts
 				</div>
 			</div>
-			<div class="col-md-4"></div>
-			<div class="col-md-8 icon_arrow-right"><i class="glyphicon glyphicon-circle-arrow-right"></i></div>
+			<div class="col-md-12">
+			<div class="col-md-6 detail">view detail</div>
+			<div class="col-md-6 icon_arrow-right"><i class="glyphicon glyphicon-circle-arrow-right"></i></div>
+			</div>
 
     </div>
      <% end %>
 
     </div>
      <div class="col-md-11 col-md-offset-1">
-     	<div  style="background-color: pink;"  class="col-md-7 admin_box_second">
-     		<div class="col-md-12"><h1>Contact</h1></div>
+     	<div class="col-md-7 admin_box_second1">
+	     	<h2 class="admin_title"><i class="glyphicon glyphicon-chevron-right"></i>Contacts</h2>
+     		<div class="col-md-12">
+     			<% @contacts.each do |contact| %>
+     			<div class="col-md-12 dashboard_box_second">
+     				<%= link_to "#{contact.body}",admins_contact_path(contact) %>
+     				</div>
+     			<div class="col-md-12 dashboard_box_second time_day"><%= simple_time(contact.created_at) %></div>
+     			<% end %>
+     		</div>
      	</div>
-     	<div  style="background-color: skyblue;"  class="col-md-3 col-md-offset-1 admin_box_second">
-     		<div class="col-md-12"><h1>Contact</h1></div>
+
+
+
+     	<div class="col-md-3 col-md-offset-1 admin_box_second2">
+     		<h2 class="admin_title"><i class="glyphicon glyphicon-chevron-right"></i>Users</h2>
+     		<div class="col-md-12 dashboard_box">
+     			<% @users.each do |user| %>
+		     			<div class="col-md-12 dashboard_box_second">
+							<%= link_to "#{user.name}",user_path(user) %>
+		     				</div>
+		     				<div class="col-md-12 dashboard_box_second time_day"><%= simple_time(user.updated_at) %></div>
+	     			<% end %>
+     		</div>
      	</div>
-     </div>
+
+
+       <div class="col-md-11 admin_box_second3">
+       		<h2 class="admin_title"><i class="glyphicon glyphicon-chevron-right"></i>Topics</h2>
+       		<div class="col-md-12  dashboard_box">
+				<% @topics.each do |topic| %>
+				<div class="col-md-12 dashboard_box_second">
+					<%=link_to "#{topic.title}",topic_path(topic) %>
+					</div>
+				<div class="col-md-12 dashboard_box_second time_day"><%= simple_time(topic.created_at) %></div>
+				<% end %>
+       		</div>
+       </div>
+	</div>
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

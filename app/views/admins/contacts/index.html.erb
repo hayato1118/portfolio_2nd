@@ -1,0 +1,31 @@
+<div class="row admin_row">
+    <div class="col-md-11 col-md-offset-1">
+    <h1>Dashboard</h1>
+      <div class="col-md-11 admin_box_second3">
+        <h2 class="admin_title"><i class="glyphicon glyphicon-chevron-right"></i>Contacts</h2>
+            <div class="col-md-12  dashboard_box">
+               <% @contacts.each do |contact| %>
+                    <div class="col-md-4">
+                    ID:<%= contact.id %>
+                    </div>
+
+                    <div class="col-md-4 admin_show_title">
+                    <%= link_to "#{contact.title}",admins_contact_path(contact) ,class: "admin_show_title" %>
+                    </div>
+
+                    <div class="col-md-4">
+                    <%= contact.email %>
+                    </div>
+
+                    <div class="col-md-8 admin_show_title">
+                    <%= contact.body %>
+                    </div>
+
+                    <div class="col-md-4">
+                    <%= simple_time(contact.created_at) %><%= link_to "削除",  admins_contact_path(contact), method: :delete %>
+                    </div>
+                <% end %>
+            </div>
+       </div>
+   </div>
+</div>

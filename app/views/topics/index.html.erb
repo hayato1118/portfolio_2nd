@@ -30,14 +30,20 @@
 
         <div class="col-md-3 col-md-offset-1 second_nav_box">
             <div class="col-md-12 text-center nav_box_text">
-              実装可能率
+              <% if @topic_search == nil && "" %>
+
+              <%= "実装可能率" %>
+              <% else %>
+              <%= "検索文字,実装可能率" %>
+              <% end %>
+
             </div>
             <div class="col-md-12 text-center">
-             <%# if (@percent * 100).round(1).nan? %>
-                  <!-- <h2><%#= 0 %>％</h2> -->
-              <%# else %>
+             <% if (@percent * 100).round(1).nan? %>
+                  <h2><%= "0%" %></h2>
+              <% else %>
                   <h2><%= (@percent * 100).round(1) %>％</h2>
-              <%# end %>
+              <% end %>
             </div>
         </div>
     </div>
@@ -54,11 +60,20 @@
   </div>
 
 
-<div class="row">
+<div class="">
     <div class="col-md-7 col-md-offset-1">
 
-      <% if request.url.include?("search") == false  %>
-          <h3>記事一覧</h3>
+      <% if request.url.include?("search") != true then %>
+              <h3>記事一覧</h3>
+      <% elsif @iamadmin == true then %>
+              <h3>Admin Login</h3>
+              <%= form_for(resource_admin, as: resource_name_admin, url: session_path(resource_name_admin)) do |f| %>
+                  <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+                  <%= f.password_field :password, autocomplete: "off" %>
+                  <%= f.submit "Log in" %>
+              <% end %>
+      <% elsif @hi_admin == true then %>
+              <h3><%= link_to "Admin_URL", admins_top_path %></h3>
       <% else %>
           <% if @topic_search != [] %>
           <h3> <%= params[:search] %></h3>
@@ -66,9 +81,13 @@
           <h3>記事一覧</h3>
           <% end %>
      <% end %>
-          <% if flash[:notice] %>
+
+
+      <% if flash[:notice] %>
         <label style="color:red;"><%= flash[:notice] %></label>
       <% end %>
+
+
         <table class="table">
             <tbody>
                 <% @topics.each do |topic| %>
@@ -98,12 +117,6 @@
                 <% end %>
             </tbody>
         </table>
-
-
-
-<div class="col-md-12 text-center">
-        <%= paginate @topics, class: "pagenate" %>
-</div>
     </div>
 
     <div class="col-md-3">
@@ -169,11 +182,12 @@
               </div>
         </div>
     </div>
+    <div class="col-md-12 text-center">
+        <%= paginate @topics, class: "pagenate" %>
+    </div>
 </div>
 
-
-
-
-
+<div class="col-md-12 border_line">
+</div>
 
 

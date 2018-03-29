@@ -18,6 +18,13 @@ class UsersController < ApplicationController
 		redirect_to user_path(@user.id)
 	end
 
+  def destroy
+      @user = User.find(params[:id])
+      @user.soft_delete
+      sign_out(@user)
+      redirect_to root_path
+  end
+
   def following
       @user  = User.find(params[:id])
       @users = @user.followings
@@ -37,7 +44,7 @@ class UsersController < ApplicationController
 		end
 
 	def screen_user
-      unless user_signed_in?
+      unless user_signed_in? || admin_signed_in?
         redirect_to root_path
       end
     end
