@@ -14,13 +14,13 @@ class TopicsController < ApplicationController
           @iamadmin = request.url.include?("iamadmin")
           if @topic == []
             @topic = Topic.all
-            flash.now[:notice] = "検索に一致する商品がありませんでした。"
+            flash.now[:notice] = "検索に一致する記事がありませんでした。"
           end
     else
       @topic = Topic.all
     end
 
-    @topics = Kaminari.paginate_array(@topic).page(params[:page])
+    @topics = Kaminari.paginate_array(@topic).page(params[:page]).per(10)
 
     @good_rank = Topic.find(TopicGood.group(:topic_id).order('count(topic_id) desc').limit(10).pluck(:topic_id))
     @page_rank = Topic.order('page_count DESC').limit(10)
@@ -68,7 +68,6 @@ class TopicsController < ApplicationController
      uri = @topic.url
 
     unless @topic.valid?(:url)
-      # binding.pry
       flash[:notice] = "重複記事があります。"
       redirect_to topics_path
     else
@@ -126,10 +125,6 @@ class TopicsController < ApplicationController
 
 
 
-
-
-
-
   def show
   	@topic = Topic.find(params[:id])
     @topic_good = TopicGood.new()
@@ -149,20 +144,31 @@ class TopicsController < ApplicationController
     # @one_total = ((@topic.good_count.to_f.round(1)/ (@num).round(1) ) * 100).round(0)
   end
 
-  # def new
-  # 	@topic = Topic.new
-  #   @topic.tags.build
-  # end
+
 
   def create
   	@topic = Topic.new(topic_params)
   	@topic.user_id = current_user.id
-    if @topic.save
-    	redirect_to topics_path
-    else
-      flash[:notice] = "重複記事があります。"
+    @tag_validat = params[:topic][:tags_attributes]["0"][:tag_name]
+    @category_validat = params[:topic][:category_ids][1]
+    if @tag_validat.blank? || @category_validat.blank?
+      flash[:notice] = "タグまたはカテゴリーが入力されていません。"
       redirect_to topics_path
+    else @topic.save
+      flash[:notice] = "登録完了しました。"
+      redirect_to topics_path
+    # else
+    #   flash[:notice] = "重複記事があります。"
+    #   redirect_to topics_path
     end
+
+
+    # if @topic.save
+    # 	redirect_to topics_path
+    # else
+    #   flash[:notice] = "重複記事があります。"
+    #   redirect_to topics_path
+    # end
   end
 
   def edit
@@ -194,13 +200,13 @@ class TopicsController < ApplicationController
        @topic_search = Topic.search(params[:search])
       if @topic == []
         @topic = Topic.all
-        flash.now[:notice] = "検索に一致する商品がありませんでした。"
+        flash.now[:notice] = "検索に一致する記事がありませんでした。"
       end
     else
       @topic = Topic.all
     end
 
-    @topics = Kaminari.paginate_array(@topic).page(params[:page])
+    @topics = Kaminari.paginate_array(@topic).page(params[:page]).per(10)
 
     @good_rank = Topic.find(TopicGood.group(:topic_id).order('count(topic_id) desc').limit(10).pluck(:topic_id))
     @page_rank = Topic.order('page_count DESC').limit(10)

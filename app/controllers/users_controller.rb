@@ -4,7 +4,13 @@ class UsersController < ApplicationController
 
 	def show
 		@user = User.find(params[:id])
+		@topics_kaminari_all = @user.topics
+		@topics_kaminari = Kaminari.paginate_array(@topics_kaminari_all).page(params[:page]).per(5)
+
 		@clips = Clip.where("user_id = ?", @user)
+		@clips_kaminari_all = @user.clip_topics
+		@clips_kaminari = Kaminari.paginate_array(@clips_kaminari_all).page(params[:page]).per(5)
+
 		@user.update(follower_count: @user.followers.count)
 	end
 

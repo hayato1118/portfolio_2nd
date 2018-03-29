@@ -36,7 +36,7 @@
              <% if (@percent * 100).round(1).nan? %>
                   <h2><%= "0%" %></h2>
               <% else %>
-                  <h2><%= (@percent * 100).round(1) %>％</h2>
+                  <h2><%= (@percent * 100).round(0) %>％</h2>
               <% end %>
             </div>
         </div>

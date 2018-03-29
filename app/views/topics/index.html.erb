@@ -12,7 +12,7 @@
 
         <div class="col-md-3 col-md-offset-1 second_nav_box">
             <div class="col-md-12 text-center nav_box_text">
-              <%= link_to "登録ユーザー", admins_top_path %>
+             登録ユーザー
             </div>
             <div class="col-md-12 text-center">
               <h2><%= User.count %></h2>
@@ -31,10 +31,9 @@
         <div class="col-md-3 col-md-offset-1 second_nav_box">
             <div class="col-md-12 text-center nav_box_text">
               <% if @topic_search == nil && "" %>
-
-              <%= "実装可能率" %>
+                  <%= "実装可能率" %>
               <% else %>
-              <%= "検索文字,実装可能率" %>
+                  <%= "検索文字,実装可能率" %>
               <% end %>
 
             </div>
@@ -42,7 +41,7 @@
              <% if (@percent * 100).round(1).nan? %>
                   <h2><%= "0%" %></h2>
               <% else %>
-                  <h2><%= (@percent * 100).round(1) %>％</h2>
+                  <h2><%= (@percent * 100).round(0) %>％</h2>
               <% end %>
             </div>
         </div>
@@ -73,18 +72,18 @@
                   <%= f.submit "Log in" %>
               <% end %>
       <% elsif @hi_admin == true then %>
-              <h3><%= link_to "Admin_URL", admins_top_path %></h3>
+              <h3><%= link_to "Admin_Page", admins_top_path %></h3>
       <% else %>
           <% if @topic_search != [] %>
-          <h3> <%= params[:search] %></h3>
+              <h3> <%= params[:search] %></h3>
           <% else %>
-          <h3>記事一覧</h3>
+              <h3>記事一覧</h3>
           <% end %>
      <% end %>
 
 
       <% if flash[:notice] %>
-        <label style="color:red;"><%= flash[:notice] %></label>
+          <label style="color:red;"><%= flash[:notice] %></label>
       <% end %>
 
 
@@ -94,7 +93,7 @@
                     <tr>
                         <% if topic.percentage.nan? %>
                               <td nowrap rowspan="2"><%= 0 %>%</td>
-                          <% else %>
+                        <% else %>
                               <td nowrap rowspan="2"><%= topic.percentage.to_i %>%</td>
                         <% end %>
                         <td class="topic_title_index" colspan="3">

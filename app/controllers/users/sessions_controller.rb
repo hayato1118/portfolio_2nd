@@ -28,6 +28,7 @@ class Users::SessionsController < Devise::SessionsController
   # 認証が失敗した場合に呼び出されるアクション
   def failed
     # warden で出力されたエラーを保存する
+    flash[:notice] = "ログインに失敗しました。"
     redirect_to topics_path
   end
 

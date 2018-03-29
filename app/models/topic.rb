@@ -26,13 +26,14 @@ has_many :categories, :through => :topic_categories
 has_many :tags, inverse_of: :topic
 accepts_nested_attributes_for :tags, allow_destroy: true
 
+
 # クリップ機能
 has_many :clips
 has_many :users, through: :clips
 
 validates :title, uniqueness: true
 validates :url, uniqueness: true
-
+# validates :tags, associated: true
 
 
 

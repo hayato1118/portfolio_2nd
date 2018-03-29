@@ -6,6 +6,7 @@ def create
     comment = current_user.topic_comments.new(topic_comment_params)
     comment.topic_id = topic.id
      if comment.save
+     	SampleMailer.send_when_comment(comment,topic).deliver
       redirect_to topic_path(topic)
     else
   	  flash[:notice] = "コメントが入力されていません。"

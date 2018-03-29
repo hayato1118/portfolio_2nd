@@ -20,12 +20,26 @@ class Admins::SessionsController < Devise::SessionsController
   #   super
   # end
 
+  # 認証が失敗した場合に呼び出されるアクション
+  def failed
+    # warden で出力されたエラーを保存する
+    flash[:notice] = "管理者ログイン失敗しました。"
+    redirect_to topics_path
+  end
+
   protected
-  def screen_user
+  def auth_options
+    # 失敗時に recall に設定したパスのアクションが呼び出されるので変更
+    # { scope: resource_name, recall: "#{controller_path}#new" } # デフォルト
+    { scope: resource_name, recall: "#{controller_path}#failed" }
+  end
+
+def screen_user
       unless user_signed_in? || admin_signed_in?
         redirect_to root_path
       end
     end
+
   # If you have extra params to permit, append them to the sanitizer.
   # def configure_sign_in_params
   #   devise_parameter_sanitizer.permit(:sign_in, keys: [:attribute])

@@ -22,7 +22,7 @@
 		<!-- タブ内容 -->
 		<div class="tab-content">
 			<div class="tab-pane active" id="sampleContentA">
-						<% @user.topics.each do |topic| %>
+						<% @topics_kaminari.each do |topic| %>
 							<div class="col-md-10 clip_body">
 								<%= link_to topic_path(topic.id) do %>
 									<%= topic.title %>
@@ -43,11 +43,17 @@
 						<hr>
 						<hr>
 					 <% end %>
+
+				<div class="col-md-12 text-center">
+					<%= paginate @topics_kaminari, class: "pagenate" %>
+				</div>
+
+
 			</div>
 
 		<% if @user == current_user || admin_signed_in? %>
 			<div class="tab-pane" id="sampleContentB">
-				 <% @user.clip_topics.each_with_index do |topic, i| %>
+				 <% @clips_kaminari.each_with_index do |topic, i| %>
 					<div class="col-md-10 clip_body">
 						<%= link_to topic_path(topic.id) do %>
 							<%= topic.title %>
@@ -70,6 +76,11 @@
 					<hr>
 
 				 <% end %>
+
+				 <div class="col-md-12 text-center">
+					<%= paginate @clips_kaminari, class: "pagenate" %>
+				</div>
+				 
 			</div>
 		 <% end %>
 
@@ -126,30 +137,32 @@
 				<div class="col-md-6">
 					<h4>All following</h4>
 					<% @user.followings.each do |user| %>
-						<div class="col-md-3">
-							<%= attachment_image_tag user, :profile_image, fallback: "no_image_top.jpg",class: "img-thumbnail img-responsive circle center-block user_show_image" %>
+						<div class="col-md-12">
+							<div class="col-md-3">
+								<%= attachment_image_tag user, :profile_image, fallback: "no_image_top.jpg",class: "img-thumbnail img-responsive center-block user_show_image" %>
+							</div>
+							<div class="col-md-9 friend_user">
+								<%= link_to user_path(user) do %>
+									<%= user.name %>
+								<% end %>
+							</div>
 						</div>
-						<div class="col-md-9 friend_user">
-							<%= link_to user_path(user) do %>
-								<%= user.name %>
-							<% end %>
-						</div>
-						<hr>
 					<% end %>
 				</div>
 
 				<div class="col-md-6">
 					<h4>All follower</h4>
 					<% @user.followers.each do |user| %>
-						<div class="col-md-3">
-							<%= attachment_image_tag user, :profile_image, fallback: "no_image_top.jpg",class: "img-thumbnail img-responsive circle center-block user_show_image" %>
+					<div class="col-md-12">
+						<div class="col-md-4">
+							<%= attachment_image_tag user, :profile_image, fallback: "no_image_top.jpg",class: "img-thumbnail img-responsive center-block user_show_image" %>
 						</div>
-						<div class="col-md-9 frinend_user">
+						<div class="col-md-8 friend_user">
 							<%= link_to user_path(user) do %>
 								<%= user.name %>
 							<% end %>
 						</div>
-						<hr>
+					</div>
 					<% end %>
 				</div>
 			</div>
@@ -159,10 +172,11 @@
 		<h3 class="">User Information</h3>
 		<%= attachment_image_tag @user, :profile_image, fallback: "no_image_top.jpg",class: "img-thumbnail img-responsive center-block" %>
 		<%= @user.name %><br>
-		<% if @user == current_user %>
+		<% if @user != current_user %>
 		<%= render 'follow_form' %>
-		<%= render 'stats' %>
 		<% end %>
+		<%= render 'stats' %>
+		
 		<% if @user == current_user || admin_signed_in? %>
 			<%= @user.email %>
 		<% end %>

@@ -258,7 +258,10 @@
     <div class="col-md-10 col-md-offset-1">
         <div class="tag_footer">
             <ul class="ul_footer">
-                TAG >> <% @topic.tags.each do |tag| %>
+                <li class="li_footer">
+                    <span class="tag_list">タグ一覧</span>
+                </li>
+            <% @topic.tags.each do |tag| %>
                 <li class="li_footer">
                     <%= link_to "#{tag.tag_name}", tags_path(tag_name: tag.tag_name),class: "tag_list" %>
                 </li>
