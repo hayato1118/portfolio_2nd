@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180329052648) do
+ActiveRecord::Schema.define(version: 20180330082840) do
 
   create_table "admins", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -139,10 +139,10 @@ ActiveRecord::Schema.define(version: 20180329052648) do
     t.integer "page_count", default: 0
     t.text "re_body"
     t.string "posted_day"
-    t.string "paragraph"
     t.string "author"
     t.string "url"
     t.string "title"
+    t.text "paragraph"
     t.index ["title"], name: "index_topics_on_title", unique: true
     t.index ["url"], name: "index_topics_on_url", unique: true
   end
