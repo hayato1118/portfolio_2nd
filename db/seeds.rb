@@ -11,9 +11,16 @@ Category.create(category_name: 'JavaScript')
 
 Admin.create!(email: 'admin@gmail.com', password: '123456')
 
-User.create!(name: 'hayato1', email: 'sample1@yahoo.co.jp', password: '123456')
-User.create!(name: 'hayato2', email: 'sample2@yahoo.co.jp', password: '123456')
-User.create!(name: 'hayato3', email: 'sample3@yahoo.co.jp', password: '123456')
+# User.create!(name: 'hayato1', email: 'sample1@yahoo.co.jp', password: '123456')
+# User.create!(name: 'hayato2', email: 'sample2@yahoo.co.jp', password: '123456')
+# User.create!(name: 'hayato3', email: 'sample3@yahoo.co.jp', password: '123456')
+
+30.times do |i|
+	gimei = Gimei.name
+	User.create(:email => "sample#{1+i}@yahoo.co.jp",
+				:name => gimei.last.romaji ,
+				:password => "123456",)
+end
 
 # Topic.create!(user_id:'1' ,title: 'cocoonで1対多のフォームを作る', url: 'http://techmory.hateblo.jp/entry/171107-cocoon',page_count: '3131')
 # Topic.create!(user_id:'2' ,title: 'Rails4でcollection_check_boxesを使って、多対多の関連をチェックボックスで設定する', url: 'https://qiita.com/hamichamp/items/8cf980e6d5ca9fd7e96f',page_count: '12341')

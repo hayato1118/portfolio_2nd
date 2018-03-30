@@ -202,7 +202,7 @@
                         <%= link_to "削除", topic_path(@topic),:confirm => '削除しますか?',:method => :delete  %>
                      </label></i>
                     <i class="glyphicon glyphicon-thumbs-up show_icon"><label><%= @topic.topic_goods.count %></label></i>
-                    <i class="glyphicon glyphicon-paperclip show_icon"><label>3</label></i>
+                    <!-- <i class="glyphicon glyphicon-paperclip show_icon"><label>3</label></i> -->
 
                 <i class="glyphicon glyphicon-stats show_icon"><label>
                     <% @num = @topic.bad_count + @topic.good_count %>
