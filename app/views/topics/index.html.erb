@@ -15,7 +15,7 @@
              登録ユーザー
             </div>
             <div class="col-md-12 text-center">
-              <h2><%= User.count %></h2>
+              <h2 class="h2_count"><%= User.count %><h6 class="h2_count">人</h6></h2>
             </div>
         </div>
 
@@ -24,7 +24,7 @@
               記事総数
             </div>
             <div class="col-md-12 text-center">
-              <h2><%= Topic.count %></h2>
+              <h2 class="h2_count"><%= Topic.count %><h6 class="h2_count">個</h6></h2>
             </div>
         </div>
 
@@ -39,9 +39,9 @@
             </div>
             <div class="col-md-12 text-center">
              <% if (@percent * 100).round(1).nan? %>
-                  <h2><%= "0%" %></h2>
+                  <h2 class="h2_count"><%= "0" %><h6 class="h2_count">%</h6></h2>
               <% else %>
-                  <h2><%= (@percent * 100).round(0) %>％</h2>
+                  <h2 class="h2_count"><%= (@percent * 100).round(0) %><h6 class="h2_count">%</h6></h2>
               <% end %>
             </div>
         </div>
@@ -92,9 +92,9 @@
                 <% @topics.each do |topic| %>
                     <tr>
                         <% if topic.percentage.nan? %>
-                              <td nowrap rowspan="2"><%= 0 %>%</td>
+                              <td class="per_dis" nowrap rowspan="2"><%= 0 %>%</td>
                         <% else %>
-                              <td nowrap rowspan="2"><%= topic.percentage.to_i %>%</td>
+                              <td class="per_dis" nowrap rowspan="2"><%= topic.percentage.to_i %>%</td>
                         <% end %>
                         <td class="topic_title_index" colspan="3">
                             <% if topic.is_new %>

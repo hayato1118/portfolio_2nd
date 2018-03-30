@@ -48,7 +48,7 @@ validates :url, uniqueness: true
         # binding.pry
         relation = Topic.joins(:tags)
         relations = relation.joins(:categories)
-        relations.merge(Category.where(['category_name LIKE ?', "%#{search}%"])).or(relations.where(['tag_name LIKE ?', "%#{search}%"])).or(relations.where(['body LIKE ?', "%#{search}%"])).or(relations.where(['re_body LIKE ?', "%#{search}%"])).or(relations.where(['title LIKE ?', "%#{search}%"])).uniq
+        relations.merge(Category.where(['category_name LIKE ?', "%#{search}%"])).or(relations.where(['tag_name LIKE ?', "%#{search}%"])).or(relations.where(['body LIKE ?', "%#{search}%"])).or(relations.where(['re_body LIKE ?', "%#{search}%"])).or(relations.where(['url LIKE ?', "%#{search}%"])).or(relations.where(['title LIKE ?', "%#{search}%"])).uniq
       else
         Topic.all
       end

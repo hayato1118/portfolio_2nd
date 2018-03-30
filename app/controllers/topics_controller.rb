@@ -13,11 +13,11 @@ class TopicsController < ApplicationController
           @hi_admin = request.url.include?("hi%21admin")
           @iamadmin = request.url.include?("iamadmin")
           if @topic == []
-            @topic = Topic.all
+            @topic = Topic.all.order(created_at: :desc)
             flash.now[:notice] = "検索に一致する記事がありませんでした。"
           end
     else
-      @topic = Topic.all
+      @topic = Topic.all.order(created_at: :desc)
     end
 
     @topics = Kaminari.paginate_array(@topic).page(params[:page]).per(10)
