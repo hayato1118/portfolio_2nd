@@ -1,7 +1,15 @@
 <div class="">
   <div class="col-md-8 col-md-offset-2">
+
 <% if current_user.name.blank? %>
-<h1>ユーザー情報登録してね</h1>
+<div class="col-xs-12 text-center well well-lg topic_error">
+      <h6>
+	      <p>ユーザー情報の登録が完了していない場合、記事の登録をすることができません。</p>
+	      <p>登録を完了させてから記事の登録をお願いします。</p>
+	      <P>登録は<%= link_to "こちら" ,user_path(current_user.id) %>から可能です。</P>
+      </h6>
+</div>
+
 <% else %>
 <%= form_for @topic do |f|  %>
 

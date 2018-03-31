@@ -37,7 +37,9 @@
 							</div>
 
 							<div class="col-md-2">
-							<%= link_to "削除",  topic_path(topic), method: :delete %>
+							<% if @user == current_user || admin_signed_in? %>
+								<%= link_to "削除",  topic_path(topic), method: :delete %>
+							<% end %>
 							</div>
 						<hr>
 						<hr>
@@ -172,8 +174,13 @@
 		<h3 class="">User Information</h3>
 		<%= attachment_image_tag @user, :profile_image, fallback: "no_image_top.jpg",class: "img-thumbnail img-responsive center-block" %>
 		<%= @user.name %><br>
-		<% if @user != current_user %>
-		<%= render 'follow_form' %>
+
+		<% if current_user.name.blank? %>
+		<h6>フォロー機能は<br>ユーザー情報が必須です。</h6>
+		<% else %>
+			<% if @user != current_user %>
+				<%= render 'follow_form' %>
+			<% end %>
 		<% end %>
 		<%= render 'stats' %>
 		
