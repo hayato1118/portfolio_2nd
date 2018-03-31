@@ -16,7 +16,7 @@ class CategoriesController < ApplicationController
     else
       @topic = Topic.all
     end
-    @topics = Kaminari.paginate_array(@topic).page(params[:page])
+    @topics = Kaminari.paginate_array(@categories).page(params[:page]).per(10)
     @good_rank = Topic.find(TopicGood.group(:topic_id).order('count(topic_id) desc').limit(10).pluck(:topic_id))
     @page_rank = Topic.order('page_count DESC').limit(10)
     @user_rank = User.order('follower_count DESC').limit(10)

@@ -15,7 +15,7 @@ class TagsController < ApplicationController
       @topic = Topic.all
     end
 
-    @topics = Kaminari.paginate_array(@topic).page(params[:page])
+    @topics = Kaminari.paginate_array(@tags).page(params[:page]).per(10)
 
     @good_rank = Topic.find(TopicGood.group(:topic_id).order('count(topic_id) desc').limit(10).pluck(:topic_id))
     @page_rank = Topic.order('page_count DESC').limit(10)
