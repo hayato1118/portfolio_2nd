@@ -45,7 +45,7 @@ def sortable(column, title = nil)
     title ||= column.titleize
     # titleizeは全ての単語の先頭の文字を大文字にする
     css_class = (column == sort_column) ? "current #{sort_direction}" : nil
-    direction = (column == sort_column && sort_direction == "asc") ? "desc" : "asc"
+    direction = (column == sort_column && sort_direction == "desc") ? "asc" : "desc"
     link_to title, {:sort => column, :direction => direction}, {:class => css_class}
   end
 
