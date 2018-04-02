@@ -50,8 +50,7 @@ class TopicsController < ApplicationController
     # 個別の記事の実装可能率
     # @one_total = ((topic.good_count.to_f.round(1)/ (@num).round(1) ) * 100).round(1)
 
-    # もしカラムを作って保存する場合
-    # topic.one_total == @one_total
+
     end
     # 全体の記事の投票数
     @total = @all_bad_count + @all_good_count
@@ -233,7 +232,7 @@ class TopicsController < ApplicationController
       @topic = Topic.all
     end
 
-    @topics = Kaminari.paginate_array(@topic).order(sort_column + ' ' + sort_direction).page(params[:page]).per(10)
+    @topics = Kaminari.paginate_array(@topic).page(params[:page]).per(10)
 
     @good_rank = Topic.find(TopicGood.group(:topic_id).order('count(topic_id) desc').limit(10).pluck(:topic_id))
     @page_rank = Topic.order('page_count DESC').limit(10)
@@ -267,7 +266,7 @@ class TopicsController < ApplicationController
 
 private
     def topic_params
-      params.require(:topic).permit(:author ,:paragraph,:posted_day, :one_total, :re_body,:title,:url,:body,:topic_image, :tags_attributes => [:id, :tag_name, :topic_id, :_destroy],category_ids: [])
+      params.require(:topic).permit(:author ,:paragraph,:posted_day, :total_count, :re_body,:title,:url,:body,:topic_image, :tags_attributes => [:id, :tag_name, :topic_id, :_destroy],category_ids: [])
     end
 
 
