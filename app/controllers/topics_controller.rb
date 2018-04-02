@@ -1,4 +1,5 @@
 class TopicsController < ApplicationController
+  helper_method :sort_column, :sort_direction
   require "open-uri"
   require "nokogiri"
 
@@ -13,11 +14,11 @@ class TopicsController < ApplicationController
           @hi_admin = request.url.include?("hi%21admin")
           @iamadmin = request.url.include?("iamadmin")
           if @topic == []
-            @topic = Topic.all.order(created_at: :desc)
+            @topic = Topic.all.order(sort_column + ' ' + sort_direction)
             flash.now[:notice] = "検索に一致する記事がありませんでした。"
           end
     else
-      @topic = Topic.all.order(created_at: :desc)
+      @topic = Topic.all.order(sort_column + ' ' + sort_direction)
     end
 
     @topics = Kaminari.paginate_array(@topic).page(params[:page]).per(10)
@@ -145,6 +146,15 @@ class TopicsController < ApplicationController
     @topic.update(page_count: @topic.impressionist_count)
     @topic.update(good_count: @topic.topic_goods.count)
     @topic.update(bad_count: @topic.topic_bads.count)
+
+    if @topic.percentage.nan?
+    @topic.update(total_count: 0)
+    else
+    @topic.update(total_count: @topic.percentage.to_i)
+    end
+
+
+
     # @good_rank = Topic.find(TopicGood.group(:topic_id).order('count(topic_id) desc').limit(10).pluck(:topic_id))
 
     @num = 0
@@ -223,7 +233,7 @@ class TopicsController < ApplicationController
       @topic = Topic.all
     end
 
-    @topics = Kaminari.paginate_array(@topic).page(params[:page]).per(10)
+    @topics = Kaminari.paginate_array(@topic).order(sort_column + ' ' + sort_direction).page(params[:page]).per(10)
 
     @good_rank = Topic.find(TopicGood.group(:topic_id).order('count(topic_id) desc').limit(10).pluck(:topic_id))
     @page_rank = Topic.order('page_count DESC').limit(10)
@@ -259,4 +269,13 @@ private
     def topic_params
       params.require(:topic).permit(:author ,:paragraph,:posted_day, :one_total, :re_body,:title,:url,:body,:topic_image, :tags_attributes => [:id, :tag_name, :topic_id, :_destroy],category_ids: [])
     end
+
+
+  def sort_direction
+    %w[asc desc].include?(params[:direction]) ?  params[:direction] : "asc"
+  end
+
+  def sort_column
+      Topic.column_names.include?(params[:sort]) ? params[:sort] : "title"
+  end
 end

@@ -87,6 +87,56 @@
       <% end %>
 
 
+
+<div class="pull-right">
+    <% if request.url.include?("desc&sort=total_count") then %>
+            <th><%= sortable "total_count", "実装可能▼" %></th>
+
+    <% elsif request.url.include?("asc&sort=total_count") then %>
+            <th><%= sortable "total_count", "実装可能▲" %></th> 
+    <% else %>
+            <th><%= sortable "total_count", "実装可能順" %></th>
+    <% end %>
+
+
+    <% if request.url.include?("desc&sort=good_count") then %>
+            <th><%= sortable "good_count", "いいね数▼" %></th>
+
+    <% elsif request.url.include?("asc&sort=good_count") then %>
+            <th><%= sortable "good_count", "いいね数▲" %></th>
+    <% else %>
+            <th><%= sortable "good_count", "いいね順" %></th>
+    <% end %>
+
+
+
+    <% if request.url.include?("desc&sort=page_count") then %>
+            <th><%= sortable "page_count", "プレビュー数▼" %></th>
+
+    <% elsif request.url.include?("asc&sort=page_count") then %>
+            <th><%= sortable "page_count", "プレビュー数▲" %></th> 
+    <% else %>
+            <th><%= sortable "page_count", "プレビュー順" %></th>
+    <% end %>
+
+
+
+    <% if request.url.include?("desc&sort=created_at") then %>
+            <th><%= sortable "created_at", "作成日▼" %></th>
+    <% elsif request.url.include?("asc&sort=created_at") then %>
+
+            <th><%= sortable "created_at", "作成日▲" %></th>
+    <% else %>
+            <th><%= sortable "created_at", "作成日順" %></th>
+    <% end %>
+</div>
+
+
+
+
+
+
+
         <table class="table">
             <tbody>
                 <% @topics.each do |topic| %>
@@ -94,7 +144,7 @@
                         <% if topic.percentage.nan? %>
                               <td class="per_dis" nowrap rowspan="2"><%= 0 %>%</td>
                         <% else %>
-                              <td class="per_dis" nowrap rowspan="2"><%= topic.percentage.to_i %>%</td>
+                              <td class="per_dis" nowrap rowspan="2"><%= topic.total_count %>%</td>
                         <% end %>
                         <td class="topic_title_index" colspan="3">
                             <% if topic.is_new %>
