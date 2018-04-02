@@ -1,18 +1,72 @@
-<center>
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Minmemo</title>
+    <%= csrf_meta_tags %>
 
-<div class="col-md-12 top_form_position">
-	<div class="top_form">
-		</div>
-		<%= form_tag topics_path, :method => 'get' do %>
-			<%= text_field_tag :search, params[:search]  ,class: "col-md-7 col-md-offset-2 topic_form",:placeholder => "記事の検索ができます。" %>
-			<%#= text_field_tag :search, params[:search]  ,class: "col-md-3 col-md-offset-2 topic_form",:placeholder => "記事の検索ができます。" %>
-			<%#= text_field_tag :search, params[:search],class: "col-md-2 topic_form", id: "datepicker",:placeholder => "FROM 作成日" ,:readonly => true %>
-			<%#= text_field_tag :search, params[:search],class: "col-md-2 topic_form", id: "datepicker2",:placeholder => "FROM 投稿日",:readonly => true %>
-			<%= submit_tag 'Search', :name => nil , class: "btn btn-default col-md-1 topic_submit" %>
-		<% end %>
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1/jquery-ui.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1/i18n/jquery.ui.datepicker-ja.min.js"></script>
+    <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/smoothness/jquery-ui.css" >
+    <%= favicon_link_tag %>
+  </head>
+
+<body class="">
+
+<header>
+
+<% if user_signed_in? %>
+<div class="video-wrap">
+    <div class="header_logo_video">
+      <%= link_to "みんなのメモ" ,topics_path,class: "header_list_a logo_top_video" %>
+    </div>
+
+    <div class="header_list_video_login">
+      <%=link_to "記事一覧", topics_path,class: "header_list_a" %>
+      <%=link_to "ユーザー情報", user_path(current_user.id),class: "header_list_a" %>
+      <%=link_to "ログアウト", destroy_user_session_path, :method => :delete,class: "header_list_a" %>
+    </div>
+
+<% else %>
+
+  <div class="header_logo_video">
+      <%= link_to "みんなのメモ" ,topics_path,class: "header_list_a logo_top" %>
+  </div>
+</div>
+  <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+      <%= devise_error_messages! %>
+      <div class="header_list_video">
+          <%= f.email_field :email, autofocus: true, autocomplete: "email",class: "email_form",:placeholder => "Email"  %>
+
+          <% if @minimum_password_length %>
+                <em>(<%= @minimum_password_length %> characters minimum)</em>
+          <% end %>
+          <%= f.password_field :password, autocomplete: "off",class: "email_form",:placeholder => "Password"  %>
+          <%= f.submit "新規登録", class: "btn btn-default login_form"  %>
+      </div>
+  <% end %>
+<% end %>
+ <%= video_tag("2.mp4", :autoplay => true, :loop => true) %>
+</div>
+</header>
+
+
+<div class="col-md-12 top_form_position_video">
+  <div class="top_form_video">
+    </div>
+    <%= form_tag topics_path, :method => 'get' do %>
+      <%= text_field_tag :search, params[:search]  ,class: "topic_form_video",:placeholder => "記事の検索ができます。" %>
+      <%= submit_tag 'Search', :name => nil , class: "btn btn-default col-md-1 topic_submit_video" %>
+    <% end %>
 </div>
 
-</center>
+
+</body>
+<footer>
+</footer>
+</html>
+
 
 
 <!-- <script>

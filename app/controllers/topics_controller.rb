@@ -182,9 +182,14 @@ class TopicsController < ApplicationController
     # end
   end
 
+
   def edit
   	@topic = Topic.find(params[:id])
+    if @topic.user != current_user && admin_signed_in? == false
+      redirect_to root_path
+    end
   end
+
 
 
   def update
@@ -201,8 +206,9 @@ class TopicsController < ApplicationController
   end
 
 
+
   def top
-      render :layout => 'top.application'
+     render :layout => false
   end
 
   def password

@@ -1,0 +1,39 @@
+<center>
+
+<div class="col-md-12 top_form_position">
+  <div class="top_form">
+    </div>
+    <%= form_tag topics_path, :method => 'get' do %>
+      <%= text_field_tag :search, params[:search]  ,class: "col-md-7 col-md-offset-2 topic_form",:placeholder => "記事の検索ができます。" %>
+      <%#= text_field_tag :search, params[:search]  ,class: "col-md-3 col-md-offset-2 topic_form",:placeholder => "記事の検索ができます。" %>
+      <%#= text_field_tag :search, params[:search],class: "col-md-2 topic_form", id: "datepicker",:placeholder => "FROM 作成日" ,:readonly => true %>
+      <%#= text_field_tag :search, params[:search],class: "col-md-2 topic_form", id: "datepicker2",:placeholder => "FROM 投稿日",:readonly => true %>
+      <%= submit_tag 'Search', :name => nil , class: "btn btn-default col-md-1 topic_submit" %>
+    <% end %>
+</div>
+
+</center>
+
+
+<!-- <script>
+  $(function() {
+    $("#datepicker").datepicker({
+
+changeYear: true,
+    });
+  });
+</script>
+
+
+<script>
+  $(function() {
+    $("#datepicker2").datepicker({
+changeYear: true,
+
+
+    });
+  });
+</script> -->
+
+
+
