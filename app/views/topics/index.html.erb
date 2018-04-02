@@ -88,49 +88,38 @@
 
 
 
-<div class="pull-right">
-    <% if request.url.include?("desc&sort=total_count") then %>
-            <th><%= sortable "total_count", "実装可能▼" %></th>
-
-    <% elsif request.url.include?("asc&sort=total_count") then %>
-            <th><%= sortable "total_count", "実装可能▲" %></th> 
-    <% else %>
-            <th><%= sortable "total_count", "実装可能順" %></th>
-    <% end %>
-
-
-    <% if request.url.include?("desc&sort=good_count") then %>
-            <th><%= sortable "good_count", "いいね数▼" %></th>
-
-    <% elsif request.url.include?("asc&sort=good_count") then %>
-            <th><%= sortable "good_count", "いいね数▲" %></th>
-    <% else %>
-            <th><%= sortable "good_count", "いいね順" %></th>
-    <% end %>
+<% if user_signed_in? || admin_signed_in? %>
+    <div class="pull-right">
+        <% if request.url.include?("desc&sort=total_count") then %>
+                <th><%= sortable "total_count", "実装可能▼" %></th>
+        <% elsif request.url.include?("asc&sort=total_count") then %>
+                <th><%= sortable "total_count", "実装可能▲" %></th> 
+        <% else %>
+                <th><%= sortable "total_count", "実装可能順" %></th>
+        <% end %>
 
 
+<!--         <%# if request.url.include?("desc&sort=page_count") then %>
+                <th><%#= sortable "page_count", "プレビュー▼" %></th>
 
-    <% if request.url.include?("desc&sort=page_count") then %>
-            <th><%= sortable "page_count", "プレビュー数▼" %></th>
-
-    <% elsif request.url.include?("asc&sort=page_count") then %>
-            <th><%= sortable "page_count", "プレビュー数▲" %></th> 
-    <% else %>
-            <th><%= sortable "page_count", "プレビュー順" %></th>
-    <% end %>
+        <%# elsif request.url.include?("asc&sort=page_count") then %>
+                <th><%#= sortable "page_count", "プレビュー▲" %></th> 
+        <%# else %>
+                <th><%#= sortable "page_count", "プレビュー順" %></th>
+        <%# end %> -->
 
 
 
-    <% if request.url.include?("desc&sort=created_at") then %>
-            <th><%= sortable "created_at", "作成日▼" %></th>
-    <% elsif request.url.include?("asc&sort=created_at") then %>
+        <% if request.url.include?("desc&sort=created_at") then %>
+                <th><%= sortable "created_at", "作成日▼" %></th>
+        <% elsif request.url.include?("asc&sort=created_at") then %>
 
-            <th><%= sortable "created_at", "作成日▲" %></th>
-    <% else %>
-            <th><%= sortable "created_at", "作成日順" %></th>
-    <% end %>
-</div>
-
+                <th><%= sortable "created_at", "作成日▲" %></th>
+        <% else %>
+                <th><%= sortable "created_at", "作成日順" %></th>
+        <% end %>
+    </div>
+<% end %>
 
 
 
