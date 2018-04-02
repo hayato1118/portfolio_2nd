@@ -77,7 +77,10 @@
                         <td nowrap ><% if user_signed_in? %><%= link_to "クリップ", add_topic_path(topic.id), method: :post %><% end %></td>
                     </tr>
                     <tr>
-                        <td nowrap>できた：<%= topic.good_count %>　できない：<%= topic.bad_count %></td>
+                        <td nowrap>
+                          <i class="glyphicon glyphicon-thumbs-up"></i><%= topic.good_count %>
+                          <i class="glyphicon glyphicon-thumbs-down"></i><%= topic.bad_count %>
+                        </td>
                         <td nowrap><%= topic.page_count %>PV</td>
                         <td>
                             <% topic.categories.each do |category| %>
